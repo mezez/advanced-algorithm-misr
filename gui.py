@@ -5,6 +5,8 @@ from tkinter import filedialog
 class Gui(object):
     root = Tk()
     root.geometry("1200x600")
+    # root.grid_rowconfigure(0, weight=1)
+    # root.grid_columnconfigure(0, weight=1)
 
     uploaded_file_name = ""
 
@@ -25,6 +27,7 @@ class Gui(object):
     upload_label_text = StringVar()
     cost_result_label_text = StringVar()
     path_result_label_text = StringVar()
+    matrix_label_text = StringVar()
 
     # create a label widget
     titleLabel = Label(root, text="Advanced algorithm Project")
@@ -36,7 +39,8 @@ class Gui(object):
     titleLabel.grid(row=0, column=0)
     categoriesLabel.grid(row=1, column=0)
 
-    def main(self):
+    @staticmethod
+    def main():
         # create menu buttons
         branchAndBoundButton = Button(text="Branch And Bound", padx=10, fg="blue",
                                       # command=Gui.set_active_screen(self, Gui.CONST_BRANCH_AND_BOUND))
@@ -79,7 +83,8 @@ class Gui(object):
 
         Gui.root.mainloop()
 
-    def set_active_screen(self, screen_name):
+    @staticmethod
+    def set_active_screen(screen_name):
         Gui.activeScreen = screen_name
         return
 
@@ -111,13 +116,23 @@ class Gui(object):
 
     @staticmethod
     def set_screen_content(result):
-        cost_result_label = Label(Gui.root, textvariable=Gui.cost_result_label_text)
-        path_result_label = Label(Gui.root, textvariable=Gui.path_result_label_text)
-        Gui.cost_result_label_text.set("Minumum Cost : " + str(result[0]))
-        Gui.path_result_label_text.set("Path Taken: " + result[1])
-        cost_result_label.grid(row=5, column=0)
-        path_result_label.grid(row=5, column=1)
+        frame = LabelFrame(Gui.root, )
+        frame.grid(row=5, column=0, columnspan=6, sticky="ew", padx=2, pady=2)
 
+        cost_result_label = Label(frame, textvariable=Gui.cost_result_label_text)
+        path_result_label = Label(frame, textvariable=Gui.path_result_label_text)
+        matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
+        Gui.cost_result_label_text.set("Minumum Cost : " + str(result[0]) + " |")
+        Gui.path_result_label_text.set("Path Taken: " + result[1])
+        Gui.matrix_label_text.set("Matrix: ")
+        cost_result_label.grid(row=1, column=0)
+        path_result_label.grid(row=1, column=1)
+        matrix_label.grid(row=1, column=2)
+
+        matrix = Text(frame, width=40, height=10, font=("Helvetica", 10))
+        matrix.grid(row=1, column=3, pady=10)
+
+        matrix.insert(END, str(result[2]))
         return
 
 

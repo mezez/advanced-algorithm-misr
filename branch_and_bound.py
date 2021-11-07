@@ -224,7 +224,7 @@ def matr(filename):
             path += str(final_path[i]) + " -> "
             # print(final_path[i], "->", end=' ')
     #TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
-    return [final_res, path]
+    return [final_res, path, mat[0]]
 
 # read_tsp_file()
 
