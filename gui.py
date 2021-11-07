@@ -61,25 +61,25 @@ class Gui(object):
         uploadFileButton = Button(text="Upload Matrix File", padx=10, fg="blue",
                                   command=Gui.uploadFile)
 
-        branchAndBoundButton.grid(row=1, column=1)
-        antColonyButton.grid(row=1, column=2)
-        bruteForceButton.grid(row=1, column=3)
-        dynamicButton.grid(row=1, column=4)
-        edgeBranchAndBoundButton.grid(row=1, column=5)
-        greedyButton.grid(row=1, column=6)
-        approximationButton.grid(row=1, column=7)
-        geneticButton.grid(row=1, column=8)
-        geneticButton.grid(row=1, column=8)
-        Gui.space1Label.grid(row=3, column=0)
-        uploadFileButton.grid(row=4, column=0)
+        branchAndBoundButton.grid(row=1, column=1, sticky="ew")
+        antColonyButton.grid(row=1, column=2, sticky="ew")
+        bruteForceButton.grid(row=1, column=3, sticky="ew")
+        dynamicButton.grid(row=1, column=4, sticky="ew")
+        edgeBranchAndBoundButton.grid(row=1, column=5, sticky="ew")
+        greedyButton.grid(row=1, column=6, sticky="ew")
+        approximationButton.grid(row=1, column=7, sticky="ew")
+        geneticButton.grid(row=1, column=8, sticky="ew")
+        geneticButton.grid(row=1, column=8, sticky="ew")
+        Gui.space1Label.grid(row=3, column=0, sticky="ew")
+        uploadFileButton.grid(row=4, column=0, sticky="ew")
 
         active_screen_label = Label(Gui.root, textvariable=Gui.active_screen_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
-        active_screen_label.grid(row=2, column=0)
+        active_screen_label.grid(row=2, column=0, sticky="ew")
 
         uploadLabel = Label(Gui.root, textvariable=Gui.upload_label_text)
         Gui.upload_label_text.set("Filename: none")
-        uploadLabel.grid(row=4, column=1)
+        uploadLabel.grid(row=4, column=1, columnspan=8, sticky="ew")
 
         Gui.root.mainloop()
 
@@ -108,29 +108,35 @@ class Gui(object):
                                                    filetypes=(("Excel Files", "*.xlsx"),))
         Gui.upload_label_text.set("Filepath: " + uploaded_file)
         Gui.uploaded_file_name = uploaded_file
-        from branch_and_bound import matr
-        response = matr(uploaded_file)
-        Gui.set_screen_content(response)
 
+        # select module base on active screen
+        if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
+            from branch_and_bound import matr
+            response = matr(uploaded_file)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_ANT_COLONY:
+            from ant_colony_optimization import compute
+            response = compute(uploaded_file)
+            Gui.set_screen_content(response)
         return
 
     @staticmethod
     def set_screen_content(result):
         frame = LabelFrame(Gui.root, )
-        frame.grid(row=5, column=0, columnspan=6, sticky="ew", padx=2, pady=2)
+        frame.grid(row=5, column=0, columnspan=9, rowspan=9, sticky="nsew", padx=2, pady=2)
 
         cost_result_label = Label(frame, textvariable=Gui.cost_result_label_text)
         path_result_label = Label(frame, textvariable=Gui.path_result_label_text)
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
-        Gui.cost_result_label_text.set("Minumum Cost : " + str(result[0]) + " |")
+        Gui.cost_result_label_text.set("Minumum Cost : " + str(result[0]))
         Gui.path_result_label_text.set("Path Taken: " + result[1])
         Gui.matrix_label_text.set("Matrix: ")
-        cost_result_label.grid(row=1, column=0)
-        path_result_label.grid(row=1, column=1)
-        matrix_label.grid(row=1, column=2)
+        cost_result_label.grid(row=0, column=0)
+        path_result_label.grid(row=0, column=1)
+        matrix_label.grid(row=1, column=0)
 
         matrix = Text(frame, width=40, height=10, font=("Helvetica", 10))
-        matrix.grid(row=1, column=3, pady=10)
+        matrix.grid(row=1, column=1, pady=10)
 
         matrix.insert(END, str(result[2]))
         return
