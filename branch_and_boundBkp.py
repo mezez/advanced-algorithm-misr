@@ -6,8 +6,6 @@ from openpyxl import *
 
 
 # import xlrd
-# global mat
-
 
 def read_tsp_file(file=None):
     if file is None:
@@ -181,50 +179,39 @@ def TSP(adj):
 
 
 # Adjacency matrix for the given graph
+mat = read_tsp_file()
+adj = mat[0]
+# adj = [[0, 107, 241, 190, 124],
+#        [107, 0, 148, 137, 88],
+#        [241, 148, 0, 374, 171],
+#        [190, 137, 374, 0, 202],
+#        [124, 88, 171, 202, 0]]
+# N = 5
+N = mat[1]
 
-global N, final_path, final_res
+# final_path[] stores the final solution
+# i.e. the // path of the salesman.
+final_path = [None] * (N + 1)
 
+# visited[] keeps track of the already
+# visited nodes in a particular path
+visited = [False] * N
 
-def matr(filename):
-    mat = read_tsp_file(filename)
-    adj = mat[0]
-    # adj = [[0, 107, 241, 190, 124],
-    #        [107, 0, 148, 137, 88],
-    #        [241, 148, 0, 374, 171],
-    #        [190, 137, 374, 0, 202],
-    #        [124, 88, 171, 202, 0]]
-    # N = 5
-    global N
-    N = mat[1]
+# Stores the final minimum weight
+# of shortest tour.
+final_res = maxsize
 
-    # final_path[] stores the final solution
-    # i.e. the // path of the salesman.
-    global final_path
-    final_path = [None] * (N + 1)
+TSP(adj)
 
-    # visited[] keeps track of the already
-    # visited nodes in a particular path
-    visited = [False] * N
+print("Minimum cost :", final_res)
+print("Optimal Path Taken : ", end=' ')
+for i in range(N + 1):
+    if i == N:
+        print(final_path[i], end=' ')
+    else:
+        print(final_path[i], "->", end=' ')
 
-    # Stores the final minimum weight
-    # of shortest tour.
-    global final_res
-    final_res = maxsize
-
-    TSP(adj)
-
-    print("Minimum cost :", final_res)
-    print("Optimal Path Taken : ", end=' ')
-    path = ""
-    for i in range(N + 1):
-        if i == N:
-            path += str(final_path[i])
-            # print(final_path[i], end=' ')
-        else:
-            path += str(final_path[i]) + " -> "
-            # print(final_path[i], "->", end=' ')
-    #TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
-    return [final_res, path]
+    # print(final_path[i], end=' ')
 
 # read_tsp_file()
 
