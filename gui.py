@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 from tkinter import filedialog
 
@@ -27,6 +28,7 @@ class Gui(object):
     upload_label_text = StringVar()
     cost_result_label_text = StringVar()
     path_result_label_text = StringVar()
+    time_result_label_text = StringVar()
     matrix_label_text = StringVar()
 
     # create a label widget
@@ -112,11 +114,19 @@ class Gui(object):
         # select module base on active screen
         if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
             from branch_and_bound import matr
+            start_time = time.time()
             response = matr(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time-start_time
+            response.append(time_taken)
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_ANT_COLONY:
             from ant_colony_optimization import compute
+            start_time = time.time()
             response = compute(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
             Gui.set_screen_content(response)
         return
 
@@ -127,16 +137,23 @@ class Gui(object):
 
         cost_result_label = Label(frame, textvariable=Gui.cost_result_label_text)
         path_result_label = Label(frame, textvariable=Gui.path_result_label_text)
+        time_label = Label(frame, text="Time Taken:")
+        time_result_label = Label(frame, textvariable=Gui.time_result_label_text)
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
-        Gui.cost_result_label_text.set("Minumum Cost : " + str(result[0]))
+
+        Gui.cost_result_label_text.set("Minimum Cost : " + str(result[0]))
         Gui.path_result_label_text.set("Path Taken: " + result[1])
+        Gui.time_result_label_text.set(str(result[3]) + " Seconds")
         Gui.matrix_label_text.set("Matrix: ")
+
         cost_result_label.grid(row=0, column=0)
         path_result_label.grid(row=0, column=1)
-        matrix_label.grid(row=1, column=0)
+        time_label.grid(row=1, column=0)
+        time_result_label.grid(row=1, column=1)
+        matrix_label.grid(row=2, column=0)
 
         matrix = Text(frame, width=40, height=10, font=("Helvetica", 10))
-        matrix.grid(row=1, column=1, pady=10)
+        matrix.grid(row=2, column=1, pady=10)
 
         matrix.insert(END, str(result[2]))
         return
