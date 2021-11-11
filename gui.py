@@ -44,6 +44,8 @@ class Gui(object):
     @staticmethod
     def main():
         # create menu buttons
+        from genetic_approach import compute
+        compute()
         branchAndBoundButton = Button(text="Branch And Bound", padx=10, fg="blue",
                                       # command=Gui.set_active_screen(self, Gui.CONST_BRANCH_AND_BOUND))
                                       command=Gui.set_active_screen_branch_and_bound)
@@ -106,7 +108,7 @@ class Gui(object):
 
     @staticmethod
     def uploadFile():
-        uploaded_file = filedialog.askopenfilename(initialdir="C:/", title="Matrix file",
+        uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
                                                    filetypes=(("Excel Files", "*.xlsx"),))
         Gui.upload_label_text.set("Filepath: " + uploaded_file)
         Gui.uploaded_file_name = uploaded_file
