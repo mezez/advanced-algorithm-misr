@@ -1,15 +1,13 @@
 import numpy as np
 import copy
 import math
+from branch_and_bound import read_tsp_file
 np.random.seed(0)
 
-def compute():
-    iterations = 3
-    cost_matrix = np.array([[0, 10, 12, 11, 14]
-              , [10, 0, 13, 15, 8]
-              , [12, 13, 0, 9, 14]
-              , [11, 15, 9, 0, 16]
-              , [14, 8, 14, 16, 0]])
+def genetic_approach(uploaded_file):
+    iterations = 100
+    cost_matrix= np.array(read_tsp_file(uploaded_file)[0])
+    print("CostMAtrix_____",cost_matrix)
     size = len(cost_matrix)
     number_of_couples = math.floor(size/4)
     number_of_winners_to_keep = 2
@@ -19,7 +17,6 @@ def compute():
     for i in range(0,iterations):
         new_chromosomes = []
         scores = chromosomesFitness(chromosomes, cost_matrix)
-        print(scores)
         best = chromosomes[np.argmin(scores)]
         distance = fitness(size, best, cost_matrix)
         for j in range(0, number_of_couples):  
@@ -35,7 +32,7 @@ def compute():
         while len(new_chromosomes) < size:
             new_chromosomes = np.append(new_chromosomes, [createNewChromosome(cities)], axis=0)
         chromosomes = np.array(copy.deepcopy(new_chromosomes))
-    print(distance, best)
+    return([int(distance), str(best), cost_matrix])
 
 #Calculates the distance traveled by chromosome.
 def fitness(size, chromosome, cost_matrix):
