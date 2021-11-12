@@ -104,7 +104,7 @@ class Gui(object):
 
     @staticmethod
     def uploadFile():
-        uploaded_file = filedialog.askopenfilename(initialdir="C:/", title="Matrix file",
+        uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
                                                    filetypes=(("Excel Files", "*.xlsx"),))
         Gui.upload_label_text.set("Filepath: " + uploaded_file)
         Gui.uploaded_file_name = uploaded_file
