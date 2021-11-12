@@ -1,6 +1,6 @@
 import math
 from openpyxl import *
-
+from branch_and_bound import read_tsp_file
 
 class TravellingSalesmanProblem:
 
@@ -151,21 +151,11 @@ class TravellingSalesmanProblem:
         return ((1 << element) & subset) == 0
 
 
-if __name__ == '__main__':
-    distance_matrix = [
-        [0, 328, 259, 180, 314, 294, 269, 391],
-        [328, 0, 83, 279, 107, 131, 208, 136],
-        [259, 83, 0, 257, 70, 86, 172, 152],
-        [180, 279, 257, 0, 190, 169, 157, 273],
-        [314, 107, 70, 190, 0, 25, 108, 182],
-        [294, 131, 86, 169, 25, 0, 84, 158],
-        [269, 208, 172, 157, 108, 84, 0, 140],
-        [391, 136, 152, 273, 182, 158, 140, 0],
-    ]
+def dynamic_programing(uploaded_file):
+    distance_matrix= read_tsp_file(uploaded_file)[0]
     start_city = 0
 
     tour = TravellingSalesmanProblem(distance_matrix, start_city)
     tour.solve()
+    return([int(tour.min_path_cost), str(tour.shortest_path), distance_matrix])
 
-    print("Shortest path :", tour.shortest_path)
-    print("Minimum path cost :", tour.min_path_cost)

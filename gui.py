@@ -52,7 +52,7 @@ class Gui(object):
         bruteForceButton = Button(text="Brute Force", padx=10, fg="blue",
                                   command=Gui.set_active_screen_branch_and_bound)
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
-                               command=Gui.set_active_screen_branch_and_bound)
+                               command=Gui.set_active_screen_dynamic)
         edgeBranchAndBoundButton = Button(text="Edge Branch and Bound", padx=10, fg="blue",
                                           command=Gui.set_active_screen_branch_and_bound)
         greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_branch_and_bound)
@@ -112,6 +112,13 @@ class Gui(object):
         return
 
     @staticmethod
+    def set_active_screen_dynamic():
+        Gui.activeScreen = Gui.CONST_DYNAMIC
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
     def uploadFile():
         uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
                                                    filetypes=(("Excel Files", "*.xlsx"),))
@@ -139,6 +146,14 @@ class Gui(object):
             from genetic_approach import genetic_approach
             start_time = time.time()
             response  = genetic_approach(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_DYNAMIC:
+            from dynamic_programming import dynamic_programing
+            start_time = time.time()
+            response  = dynamic_programing(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
