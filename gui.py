@@ -156,9 +156,7 @@ class Gui(object):
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
-            Gui.set_screen_content(response)
-
-            
+            Gui.set_screen_content(response)           
         return
 
     @staticmethod
