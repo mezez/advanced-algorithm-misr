@@ -59,7 +59,7 @@ class Gui(object):
         approximationButton = Button(text="MST Approximation", padx=10, fg="blue",
                                      command=Gui.set_active_screen_branch_and_bound)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
-                               command=Gui.set_active_screen_branch_and_bound)
+                               command=Gui.set_active_screen_genetic)
         uploadFileButton = Button(text="Upload Matrix File", padx=10, fg="blue",
                                   command=Gui.uploadFile)
 
@@ -105,8 +105,15 @@ class Gui(object):
         return
 
     @staticmethod
+    def set_active_screen_genetic():
+        Gui.activeScreen = Gui.CONST_GENETIC
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
     def uploadFile():
-        uploaded_file = filedialog.askopenfilename(initialdir="C:/", title="Matrix file",
+        uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
                                                    filetypes=(("Excel Files", "*.xlsx"),))
         Gui.upload_label_text.set("Filepath: " + uploaded_file)
         Gui.uploaded_file_name = uploaded_file
@@ -124,6 +131,14 @@ class Gui(object):
             from ant_colony_optimization import compute
             start_time = time.time()
             response = compute(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_GENETIC:
+            from genetic_approach import genetic_approach
+            start_time = time.time()
+            response  = genetic_approach(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
