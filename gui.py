@@ -57,7 +57,7 @@ class Gui(object):
                                           command=Gui.set_active_screen_branch_and_bound)
         greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_branch_and_bound)
         approximationButton = Button(text="MST Approximation", padx=10, fg="blue",
-                                     command=Gui.set_active_screen_branch_and_bound)
+                                     command=Gui.set_active_screen_approximation)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_genetic)
         uploadFileButton = Button(text="Upload Matrix File", padx=10, fg="blue",
@@ -110,6 +110,12 @@ class Gui(object):
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         print(Gui.activeScreen)
         return
+    @staticmethod
+    def set_active_screen_approximation():
+        Gui.activeScreen = Gui.CONST_APPROXIMATION
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
 
     @staticmethod
     def uploadFile():
@@ -136,13 +142,21 @@ class Gui(object):
             response.append(time_taken)
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_GENETIC:
-            from genetic_approach import genetic_approach
+            from genetic_approach import geneticApproach
             start_time = time.time()
-            response  = genetic_approach(uploaded_file)
+            response  = geneticApproach(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
             Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_APPROXIMATION:
+            from approximation_mst import approximationMST
+            start_time = time.time()
+            response  = approximationMST(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)           
         return
 
     @staticmethod
