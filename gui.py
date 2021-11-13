@@ -1,3 +1,4 @@
+import random
 import time
 from tkinter import *
 from tkinter import filedialog
@@ -5,7 +6,7 @@ from tkinter import filedialog
 
 class Gui(object):
     root = Tk()
-    root.geometry("1200x600")
+    root.geometry("1250x600")
     # root.grid_rowconfigure(0, weight=1)
     # root.grid_columnconfigure(0, weight=1)
 
@@ -25,11 +26,14 @@ class Gui(object):
     activeScreen = CONST_BRANCH_AND_BOUND
 
     active_screen_text = StringVar()
+    matrix_dimension_text = StringVar()
     upload_label_text = StringVar()
     cost_result_label_text = StringVar()
     path_result_label_text = StringVar()
     time_result_label_text = StringVar()
     matrix_label_text = StringVar()
+
+    matrixDimension = Entry(root, width=1)
 
     # create a label widget
     titleLabel = Label(root, text="Advanced algorithm Project")
@@ -60,6 +64,10 @@ class Gui(object):
                                      command=Gui.set_active_screen_approximation)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_genetic)
+        matrix_dimension_label = Label(Gui.root, textvariable=Gui.matrix_dimension_text)
+
+        generateMatrixButton = Button(text="Generate Random Matrix", padx=10, fg="blue",
+                                      command=Gui.generateMatrix)
         uploadFileButton = Button(text="Upload Matrix File", padx=10, fg="blue",
                                   command=Gui.uploadFile)
 
@@ -73,15 +81,21 @@ class Gui(object):
         geneticButton.grid(row=1, column=8, sticky="ew")
         geneticButton.grid(row=1, column=8, sticky="ew")
         Gui.space1Label.grid(row=3, column=0, sticky="ew")
-        uploadFileButton.grid(row=4, column=0, sticky="ew")
+        Gui.matrixDimension.grid(row=4, column=1, sticky="ew")
+        generateMatrixButton.grid(row=4, column=2, sticky="ew")
+        uploadFileButton.grid(row=4, column=4, sticky="ew")
 
         active_screen_label = Label(Gui.root, textvariable=Gui.active_screen_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         active_screen_label.grid(row=2, column=0, sticky="ew")
 
+        Gui.matrix_dimension_text.set("Enter Matrix Length, eg 4")
+        matrix_dimension_label.grid(row=4, column=0, sticky="ew")
+
         uploadLabel = Label(Gui.root, textvariable=Gui.upload_label_text)
         Gui.upload_label_text.set("Filename: none")
-        uploadLabel.grid(row=4, column=1, columnspan=8, sticky="ew")
+        uploadLabel.grid(row=4, column=5, columnspan=5, sticky="ew")
+
 
         Gui.root.mainloop()
 
@@ -118,20 +132,39 @@ class Gui(object):
         return
 
     @staticmethod
-    def uploadFile():
-        uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
-                                                   filetypes=(("Excel Files", "*.xlsx"),))
-        Gui.upload_label_text.set("Filepath: " + uploaded_file)
-        Gui.uploaded_file_name = uploaded_file
+    def generateMatrix():
+        # generate matrix
+        matrix_length = int(Gui.matrixDimension.get())
+        current_row = 0
+        cost_matrix = [[0 for x in range(matrix_length)] for y in range(matrix_length)] #initialize node with 0 costs
+        for i in range(matrix_length):
+            current_column = 0
+            for j in range(matrix_length):
+                if current_row != current_column: #change cost if the movement is to a different node, for same node, leave as 0
+                    cost_matrix[i][j] = random.randint(1, 200)
+                current_column = current_column + 1
+            current_row = current_row + 1
+        print(cost_matrix)
+        Gui.uploadFile(cost_matrix)
+
+    @staticmethod
+    def uploadFile(matrix=None):
+        if matrix:
+            uploaded_file = matrix
+        else:
+            uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
+                                                       filetypes=(("Excel Files", "*.xlsx"),))
+            Gui.upload_label_text.set("Filepath: " + uploaded_file)
+            Gui.uploaded_file_name = uploaded_file
 
         # select module base on active screen
         if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
             from branch_and_bound import matr
             start_time = time.time()
-            response = matr(uploaded_file)
+            response = matr(uploaded_file) #run computations and return response list
             end_time = time.time()
             time_taken = end_time-start_time
-            response.append(time_taken)
+            response.append(time_taken) #time taken for computation
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_ANT_COLONY:
             from ant_colony_optimization import compute
@@ -161,7 +194,7 @@ class Gui(object):
 
     @staticmethod
     def set_screen_content(result):
-        frame = LabelFrame(Gui.root, )
+        frame = LabelFrame(Gui.root)
         frame.grid(row=5, column=0, columnspan=9, rowspan=9, sticky="nsew", padx=2, pady=2)
 
         cost_result_label = Label(frame, textvariable=Gui.cost_result_label_text)
