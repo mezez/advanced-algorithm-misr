@@ -35,6 +35,8 @@ def geneticApproach(uploaded_file):
         while len(new_chromosomes) < size:
             new_chromosomes = np.append(new_chromosomes, [createNewChromosome(cities)], axis=0)
         chromosomes = np.array(copy.deepcopy(new_chromosomes))
+    distance += cost_matrix[best[len(best)-1]-1, best[0]-1]
+    best = np.append(best, best[0])
     return([int(distance), str(best), cost_matrix])
 
 #Calculates the distance traveled by chromosome.
