@@ -54,7 +54,7 @@ class Gui(object):
         antColonyButton = Button(text="Ant Colony Optimization", padx=10, fg="blue",
                                  command=Gui.set_active_screen_aco)
         bruteForceButton = Button(text="Brute Force", padx=10, fg="blue",
-                                  command=Gui.set_active_screen_branch_and_bound)
+                                  command=Gui.set_active_screen_brute)
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_branch_and_bound)
         twoOptAlgorithButton = Button(text="Two Opt Algorithm", padx=10, fg="blue",
@@ -160,6 +160,20 @@ class Gui(object):
         Gui.uploadFile(cost_matrix)
 
     @staticmethod
+    def set_active_screen_dynamic():
+        Gui.activeScreen = Gui.CONST_DYNAMIC
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
+    def set_active_screen_brute():
+        Gui.activeScreen = Gui.CONST_BRUTE_FORCE
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
     def uploadFile(matrix=None):
         if matrix:
             uploaded_file = matrix
@@ -218,6 +232,22 @@ class Gui(object):
             time_taken = end_time - start_time
             response.append(time_taken)
             Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_DYNAMIC:
+            from dynamic_programing import dynamic_programing
+            start_time = time.time()
+            response = dynamic_programing(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_BRUTE_FORCE:
+            from brute_force import brute_force
+            start_time = time.time()
+            response  = brute_force(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
         return
 
     @staticmethod
@@ -251,3 +281,6 @@ class Gui(object):
 
 if __name__ == '__main__':
     Gui().main()
+
+
+
