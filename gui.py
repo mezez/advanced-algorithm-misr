@@ -17,7 +17,7 @@ class Gui(object):
     CONST_ANT_COLONY = "ant_colony"
     CONST_BRUTE_FORCE = "brute_force"
     CONST_DYNAMIC = "dynamic_programming"
-    CONST_EDGE_BRANCH_AND_BOUND = "edge_branch_and_bound"
+    CONST_TWO_OPT_ALGORITHM = "two_opt_algorithm"
     CONST_GREEDY = "greedy"
     CONST_APPROXIMATION = "approximation"
     CONST_GENETIC = "genetic"
@@ -57,8 +57,8 @@ class Gui(object):
                                   command=Gui.set_active_screen_branch_and_bound)
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_branch_and_bound)
-        edgeBranchAndBoundButton = Button(text="Edge Branch and Bound", padx=10, fg="blue",
-                                          command=Gui.set_active_screen_branch_and_bound)
+        twoOptAlgorithButton = Button(text="Two Opt Algorithm", padx=10, fg="blue",
+                                          command=Gui.set_active_screen_two_opt)
         greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_branch_and_bound)
         approximationButton = Button(text="MST Approximation", padx=10, fg="blue",
                                      command=Gui.set_active_screen_approximation)
@@ -75,7 +75,7 @@ class Gui(object):
         antColonyButton.grid(row=1, column=2, sticky="ew")
         bruteForceButton.grid(row=1, column=3, sticky="ew")
         dynamicButton.grid(row=1, column=4, sticky="ew")
-        edgeBranchAndBoundButton.grid(row=1, column=5, sticky="ew")
+        twoOptAlgorithButton.grid(row=1, column=5, sticky="ew")
         greedyButton.grid(row=1, column=6, sticky="ew")
         approximationButton.grid(row=1, column=7, sticky="ew")
         geneticButton.grid(row=1, column=8, sticky="ew")
@@ -127,6 +127,18 @@ class Gui(object):
     @staticmethod
     def set_active_screen_approximation():
         Gui.activeScreen = Gui.CONST_APPROXIMATION
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+    @staticmethod
+    def set_active_screen_two_opt():
+        Gui.activeScreen = Gui.CONST_TWO_OPT_ALGORITHM
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+    @staticmethod
+    def set_active_screen_greedy():
+        Gui.activeScreen = Gui.CONST_GREEDY
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         print(Gui.activeScreen)
         return
@@ -189,7 +201,15 @@ class Gui(object):
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
-            Gui.set_screen_content(response)           
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_TWO_OPT_ALGORITHM:
+            from py2opt import compute
+            start_time = time.time()
+            response = compute(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
         return
 
     @staticmethod
