@@ -15,7 +15,7 @@ class Gui(object):
     CONST_BRANCH_AND_BOUND = "branch_and_bound"
     CONST_ANT_COLONY = "ant_colony"
     CONST_BRUTE_FORCE = "brute_force"
-    CONST_DYNAMIC = "dynamic_programming"
+    CONST_DYNAMIC = "dynamic_programing"
     CONST_EDGE_BRANCH_AND_BOUND = "edge_branch_and_bound"
     CONST_GREEDY = "greedy"
     CONST_APPROXIMATION = "approximation"
@@ -50,7 +50,7 @@ class Gui(object):
         antColonyButton = Button(text="Ant Colony Optimization", padx=10, fg="blue",
                                  command=Gui.set_active_screen_aco)
         bruteForceButton = Button(text="Brute Force", padx=10, fg="blue",
-                                  command=Gui.set_active_screen_branch_and_bound)
+                                  command=Gui.set_active_screen_brute)
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_dynamic)
         edgeBranchAndBoundButton = Button(text="Edge Branch and Bound", padx=10, fg="blue",
@@ -119,6 +119,13 @@ class Gui(object):
         return
 
     @staticmethod
+    def set_active_screen_brute():
+        Gui.activeScreen = Gui.CONST_BRUTE_FORCE
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
     def uploadFile():
         uploaded_file = filedialog.askopenfilename(initialdir="./", title="Matrix file",
                                                    filetypes=(("Excel Files", "*.xlsx"),))
@@ -151,9 +158,17 @@ class Gui(object):
             response.append(time_taken)
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_DYNAMIC:
-            from dynamic_programming import dynamic_programing
+            from dynamic_programing import dynamic_programing
             start_time = time.time()
             response  = dynamic_programing(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_BRUTE_FORCE:
+            from brute_force import brute_force
+            start_time = time.time()
+            response  = brute_force(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
@@ -191,3 +206,6 @@ class Gui(object):
 
 if __name__ == '__main__':
     Gui().main()
+
+
+
