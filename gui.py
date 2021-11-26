@@ -56,7 +56,7 @@ class Gui(object):
         bruteForceButton = Button(text="Brute Force", padx=10, fg="blue",
                                   command=Gui.set_active_screen_brute)
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
-                               command=Gui.set_active_screen_branch_and_bound)
+                               command=Gui.set_active_screen_dynamic)
         twoOptAlgorithButton = Button(text="Two Opt Algorithm", padx=10, fg="blue",
                                           command=Gui.set_active_screen_two_opt)
         greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_greedy)
@@ -144,6 +144,20 @@ class Gui(object):
         return
 
     @staticmethod
+    def set_active_screen_dynamic():
+        Gui.activeScreen = Gui.CONST_DYNAMIC
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
+    def set_active_screen_brute():
+        Gui.activeScreen = Gui.CONST_BRUTE_FORCE
+        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        print(Gui.activeScreen)
+        return
+
+    @staticmethod
     def generateMatrix():
         # generate matrix
         matrix_length = int(Gui.matrixDimension.get())
@@ -158,20 +172,6 @@ class Gui(object):
             current_row = current_row + 1
         print(cost_matrix)
         Gui.uploadFile(cost_matrix)
-
-    @staticmethod
-    def set_active_screen_dynamic():
-        Gui.activeScreen = Gui.CONST_DYNAMIC
-        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
-        print(Gui.activeScreen)
-        return
-
-    @staticmethod
-    def set_active_screen_brute():
-        Gui.activeScreen = Gui.CONST_BRUTE_FORCE
-        Gui.active_screen_text.set("Active: " + Gui.activeScreen)
-        print(Gui.activeScreen)
-        return
 
     @staticmethod
     def uploadFile(matrix=None):
