@@ -4,8 +4,8 @@ import math
 from branch_and_bound import read_tsp_file
 np.random.seed(0)
 
-def genetic_approach(uploaded_file):
-    iterations = 100
+def geneticApproach(uploaded_file):
+    iterations = 1000
     cost_matrix= np.array(read_tsp_file(uploaded_file)[0])
     print("CostMAtrix_____",cost_matrix)
     size = len(cost_matrix)
@@ -19,20 +19,24 @@ def genetic_approach(uploaded_file):
         scores = chromosomesFitness(chromosomes, cost_matrix)
         best = chromosomes[np.argmin(scores)]
         distance = fitness(size, best, cost_matrix)
+        #Mix already existing chromosomes
         for j in range(0, number_of_couples):  
             new_1, new_2 = crossover(chromosomes[breedChromosomes(scores)], chromosomes[breedChromosomes(scores)])
             new_chromosomes = np.array([new_1, new_2])
+        #Mutate chromosomes, reorder nodes from random location 
         for j in range(0, len(new_chromosomes)):
               new_chromosomes[j] = np.copy(mutate(new_chromosomes[j], size, 0.05))
         new_chromosomes = np.append(new_chromosomes,[chromosomes[np.argmin(scores)]],axis=0)
+        #Keep the best chromosomes from the previous generation
         for j in range(1, number_of_winners_to_keep):
            keeper = breedChromosomes(scores)            
            new_chromosomes = np.append(new_chromosomes, [chromosomes[keeper]], axis= 0)
-        # add new random members
+        #Add new random members
         while len(new_chromosomes) < size:
             new_chromosomes = np.append(new_chromosomes, [createNewChromosome(cities)], axis=0)
         chromosomes = np.array(copy.deepcopy(new_chromosomes))
-    print([int(distance), str(best), cost_matrix])
+    distance += cost_matrix[best[len(best)-1]-1, best[0]-1]
+    best = np.append(best, best[0])
     return([int(distance), str(best), cost_matrix])
 
 #Calculates the distance traveled by chromosome.
@@ -68,15 +72,15 @@ def mutate(chromosome, size, probability):
             break
     return mutated_chromosome
 
-# Creates a random chromosome
+#Creates a random chromosome
 def createNewChromosome(cities):
     return (np.array(np.random.permutation(cities)))
 
-# creates a certane ammount of chromosomes
+#Creates a certane ammount of chromosomes
 def createNexGeneration(population):
     return population
 
-# creates a certane ammount of starting chromosomes
+#Creates a certane ammount of starting chromosomes
 def createStartingGeneration(size, cities):
     chromosomes = []
     for i in range(size):
@@ -110,7 +114,7 @@ def breedChromosomes(scores):
         if rand < probs[i]:
             
             return i
-#generate indexes of cities from matrix
+#Generate indexes of cities from matrix
 def generateCities(size):
     cities= []
     for i in range(size):
