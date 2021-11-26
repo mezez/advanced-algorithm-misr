@@ -59,7 +59,7 @@ class Gui(object):
                                command=Gui.set_active_screen_branch_and_bound)
         twoOptAlgorithButton = Button(text="Two Opt Algorithm", padx=10, fg="blue",
                                           command=Gui.set_active_screen_two_opt)
-        greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_branch_and_bound)
+        greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_greedy)
         approximationButton = Button(text="MST Approximation", padx=10, fg="blue",
                                      command=Gui.set_active_screen_approximation)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
@@ -204,6 +204,14 @@ class Gui(object):
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_TWO_OPT_ALGORITHM:
             from py2opt import compute
+            start_time = time.time()
+            response = compute(uploaded_file)
+            end_time = time.time()
+            time_taken = end_time - start_time
+            response.append(time_taken)
+            Gui.set_screen_content(response)
+        if Gui.activeScreen == Gui.CONST_GREEDY:
+            from greedy import compute
             start_time = time.time()
             response = compute(uploaded_file)
             end_time = time.time()
