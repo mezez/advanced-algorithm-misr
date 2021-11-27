@@ -9,11 +9,7 @@ np.random.seed(0)
 class Gui(object):
     root = Tk()
     root.geometry("1920x1000")
-    # root.grid_rowconfigure(0, weight=1)
-    # root.grid_columnconfigure(0, weight=1)
-
     uploaded_file_name = ""
-
     # SOME CONSTANTS
     CONST_BRANCH_AND_BOUND = "branch_and_bound"
     CONST_ANT_COLONY = "ant_colony"
@@ -23,10 +19,8 @@ class Gui(object):
     CONST_GREEDY = "greedy"
     CONST_APPROXIMATION = "approximation"
     CONST_GENETIC = "genetic"
-
     # default active screen
     activeScreen = CONST_BRANCH_AND_BOUND
-
     active_screen_text = StringVar()
     matrix_dimension_text = StringVar()
     matrix_min_bound_text = StringVar()
@@ -36,16 +30,13 @@ class Gui(object):
     path_result_label_text = StringVar()
     time_result_label_text = StringVar()
     matrix_label_text = StringVar()
-
     matrixDimension = Entry(root, width=1)
     minBound = Entry(root, width=1)
     maxBound = Entry(root, width=1)
-
     # create a label widget
     titleLabel = Label(root, text="Advanced algorithm Project")
     categoriesLabel = Label(root, text="Categories:")
     space1Label = Label(root, text=" ")
-
     # add the widget to the screen
     # titleLabel.pack() #window will be only as big as its content
     titleLabel.grid(row=0, column=0)
@@ -55,7 +46,6 @@ class Gui(object):
     def main():
         # create menu buttons
         branchAndBoundButton = Button(text="Branch And Bound", padx=10, fg="blue",
-                                      # command=Gui.set_active_screen(self, Gui.CONST_BRANCH_AND_BOUND))
                                       command=Gui.set_active_screen_branch_and_bound)
         antColonyButton = Button(text="Ant Colony Optimization", padx=10, fg="blue",
                                  command=Gui.set_active_screen_aco)
@@ -81,7 +71,6 @@ class Gui(object):
                                       command=Gui.generateMatrix)
         uploadFileButton = Button(text="Upload Matrix File", fg="blue",
                                   command=Gui.uploadFile)
-
         branchAndBoundButton.grid(row=1, column=1, sticky="ew")
         antColonyButton.grid(row=1, column=2, sticky="ew")
         bruteForceButton.grid(row=1, column=3, sticky="ew")
@@ -97,12 +86,10 @@ class Gui(object):
         Gui.maxBound.grid(row=6, column=1, sticky="ew", padx=10)
         generateMatrixButton.grid(row=5, column=2, sticky="ew")
         uploadFileButton.grid(row=5, column=4, sticky="ew")
-
         active_screen_label = Label(
             Gui.root, textvariable=Gui.active_screen_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         active_screen_label.grid(row=2, column=0, sticky="ew")
-
         Gui.matrix_dimension_text.set("Enter matrix size NxN: ")
         matrix_dimension_label.grid(row=4, column=0, sticky="ew")
         Gui.matrix_min_bound_text.set("Enter minimum value of cost: ")
@@ -112,7 +99,6 @@ class Gui(object):
         uploadLabel = Label(Gui.root, textvariable=Gui.upload_label_text)
         Gui.upload_label_text.set("Filename: none")
         uploadLabel.grid(row=5, column=5, sticky="ew")
-
         Gui.root.mainloop()
 
     @staticmethod
@@ -268,7 +254,6 @@ class Gui(object):
         frame = LabelFrame(Gui.root)
         frame.grid(row=7, column=0, columnspan=12,
                    rowspan=12, sticky="nsew", pady=2)
-
         cost_result_label = Label(
             frame, textvariable=Gui.cost_result_label_text)
         path_result_label = Label(
@@ -276,21 +261,17 @@ class Gui(object):
         time_result_label = Label(
             frame, textvariable=Gui.time_result_label_text)
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
-
         Gui.cost_result_label_text.set("Minimum Cost : " + str(result[0]))
         Gui.path_result_label_text.set("Path Taken: " + convertPath(result[1]))
         Gui.time_result_label_text.set(
             "Time taken: " + str(result[3]) + " Seconds")
         Gui.matrix_label_text.set("Matrix: ")
-
         cost_result_label.grid(row=0, column=0)
         path_result_label.grid(row=0, column=1)
         time_result_label.grid(row=1, column=0)
         matrix_label.grid(row=2, column=0)
-
         matrix = Text(frame, width="100", font=("Helvetica", 10))
         matrix.grid(row=2, column=1, pady=10)
-
         matrix.insert(END, str(np.array(result[2])))
         return
 
