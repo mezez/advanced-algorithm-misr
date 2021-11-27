@@ -95,8 +95,7 @@ def TSPRec(adj, curr_bound, curr_weight,
 
             # curr_res has the total weight
             # of the solution we got
-            curr_res = curr_weight + adj[curr_path[level - 1]] \
-                [curr_path[0]]
+            curr_res = curr_weight + adj[curr_path[level - 1]][curr_path[0]]
             if curr_res < final_res:
                 copyToFinal(curr_path)
                 final_res = curr_res
