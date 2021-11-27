@@ -152,7 +152,6 @@ def matr(filename):
     global final_res
     final_res = maxsize
     TSP(adj)
-    print(final_path)
     for i in range(len(final_path)):
         final_path[i] = final_path[i] + 1
     return [final_res, final_path, mat[0]]
