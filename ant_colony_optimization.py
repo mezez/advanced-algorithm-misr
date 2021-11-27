@@ -31,7 +31,6 @@ def compute(filename):
             # creating a copy of visibility
             temp_visibility = np.array(visibility)
             for j in range(n - 1):
-                # print(route)
                 # intializing combine_feature array to zero
                 combine_feature = np.zeros(5)
                 # intializing cummulative probability array to zeros
@@ -53,12 +52,9 @@ def compute(filename):
                 # finding probability of element probs(i) = comine_feature(i)/total
                 probs = combine_feature / total
                 cum_prob = np.cumsum(probs)  # calculating cummulative sum
-                # print(cum_prob)
                 r = np.random.random_sample()  # random no in [0,1)
-                # print(r)
                 # finding the next city having probability higher then random(r)
                 city = np.nonzero(cum_prob > r)[0][0] + 1
-                # print(city)
                 route[i, j + 1] = city  # adding city to route
             left = list(set([i for i in range(1, n + 1)]) - set(route[i, :-2]))[
                 0]  # finding the last untraversed city to route
