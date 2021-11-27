@@ -51,7 +51,9 @@ def findMinRoute(cost_matrix):
     #  Started from the node where
     #  we finished as well.
     visited_route_list.append(0)
-    return [int(sum), str(visited_route_list), cost_matrix]
+    for i in range(len(visited_route_list)):
+        visited_route_list[i] = visited_route_list[i]+1
+    return [int(sum), visited_route_list, cost_matrix]
 
 
 def compute(filename):

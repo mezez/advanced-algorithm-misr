@@ -1,3 +1,4 @@
+from utils import convertPath
 import numpy as np
 import time
 from tkinter import *
@@ -277,7 +278,7 @@ class Gui(object):
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
 
         Gui.cost_result_label_text.set("Minimum Cost : " + str(result[0]))
-        Gui.path_result_label_text.set("Path Taken: " + result[1])
+        Gui.path_result_label_text.set("Path Taken: " + convertPath(result[1]))
         Gui.time_result_label_text.set(
             "Time taken: " + str(result[3]) + " Seconds")
         Gui.matrix_label_text.set("Matrix: ")
@@ -290,7 +291,7 @@ class Gui(object):
         matrix = Text(frame, width="100", font=("Helvetica", 10))
         matrix.grid(row=2, column=1, pady=10)
 
-        matrix.insert(END, str(result[2]))
+        matrix.insert(END, str(np.array(result[2])))
         return
 
 

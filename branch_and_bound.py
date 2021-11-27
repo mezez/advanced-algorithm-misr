@@ -177,18 +177,11 @@ def matr(filename):
     # of shortest tour.
     global final_res
     final_res = maxsize
-
     TSP(adj)
-    path = ""
-    for i in range(N + 1):
-        if i == N:
-            path += str(final_path[i])
-            # print(final_path[i], end=' ')
-        else:
-            path += str(final_path[i]) + " -> "
-            # print(final_path[i], "->", end=' ')
-    # TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
-    return [final_res, path, mat[0]]
+    print(final_path)
+    for i in range(len(final_path)):
+        final_path[i] = final_path[i] + 1
+    return [final_res, final_path, mat[0]]
 
 # read_tsp_file()
 

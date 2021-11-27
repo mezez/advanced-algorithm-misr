@@ -42,7 +42,7 @@ def geneticApproach(uploaded_file):
         chromosomes = np.array(copy.deepcopy(new_chromosomes))
     distance += cost_matrix[best[len(best)-1]-1, best[0]-1]
     best = np.append(best, best[0])
-    return([int(distance), str(best), cost_matrix])
+    return([int(distance), best, cost_matrix])
 
 # Calculates the distance traveled by chromosome.
 

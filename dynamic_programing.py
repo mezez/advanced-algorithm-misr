@@ -51,12 +51,12 @@ def dynamic_programing(uploaded_file):
     # Backtrack to find full path
     path = []
     for i in range(n - 1):
-        path.append(parent)
+        path.append(parent+1)
         new_bits = bits & ~(1 << parent)
         _, parent = C[(bits, parent)]
         bits = new_bits
 
     # Add implicit start state
-    path.append(0)
-
-    return [opt, str(list(reversed(path))), matrix[0]]
+    path.append(1)
+    path.insert(0, 1)
+    return [opt, list(reversed(path)), matrix[0]]
