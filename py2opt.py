@@ -8,8 +8,9 @@ def compute(filename):
     route_finder = RouteFinder(dist_mat, cities_names, iterations=5)
     best_distance, best_route = route_finder.solve()
     best_route.append(0)
-
-    return [int(best_distance), str(best_route), dist_mat]
+    for i in range(len(best_route)):
+        best_route[i] = best_route[i]+1
+    return [int(best_distance), best_route, dist_mat]
 
 
 # This code is contributed by Pedram Ataee

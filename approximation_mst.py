@@ -11,7 +11,7 @@ def approximationMST(uploaded_file):
         cost_matrix, starting_node, path, distance))
     distance += cost_matrix[route[len(route)-1]-1, starting_node-1]
     route = np.append(route, route[starting_node-1])
-    return([int(distance), str(route), cost_matrix])
+    return([int(distance), route, cost_matrix])
 
 
 def minimumSpanningTree(cost_matrix, starting_node=1, path=[1], distance=0):

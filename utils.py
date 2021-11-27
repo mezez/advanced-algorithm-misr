@@ -1,3 +1,4 @@
+from types import new_class
 from openpyxl import *
 
 
@@ -32,3 +33,13 @@ def read_tsp_file(file=None):
 
         final_data = [cost_matrix, row_count]
     return final_data
+
+
+def convertPath(path):
+    newPath = ""
+    for i in range(len(path)):
+        if i == len(path) - 1:
+            newPath += str(int(path[i]))
+        else:
+            newPath += str(int(path[i])) + " -> "
+    return newPath

@@ -132,7 +132,7 @@ def compute(filename):
                 # updating the pheromone with delta_distance
                 # delta_distance will be more with min_dist i.e adding more weight to that route  peromne
 
-    return [int(dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0], str(best_route), mat[0]]
+    return [int(dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0], best_route, mat[0]]
 
 
 # references

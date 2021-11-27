@@ -29,4 +29,6 @@ def brute_force(uploaded_file):
 
     optimal_path = min(all_travels)
     optimal_path[1].append(start_city)
-    return [int(optimal_path[0]), str(optimal_path[1]), distance_matrix]
+    for i in range(len(optimal_path[1])):
+        optimal_path[1][i] = optimal_path[1][i]+1
+    return [int(optimal_path[0]), optimal_path[1], distance_matrix]
