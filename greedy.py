@@ -1,5 +1,5 @@
 import sys
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 
 #  Function to find the minimum
@@ -51,9 +51,6 @@ def findMinRoute(cost_matrix):
     #  Started from the node where
     #  we finished as well.
     visited_route_list.append(0)
-    print("Minimum Cost is : ", end="")
-    print(sum)
-    print(visited_route_list)
     return [int(sum), str(visited_route_list), cost_matrix]
 
 

@@ -1,6 +1,6 @@
 import numpy as np
 from numpy import inf
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 # given values for the problems
 
@@ -131,13 +131,6 @@ def compute(filename):
                     route_opt[i, j + 1]) - 1] + dt
                 # updating the pheromone with delta_distance
                 # delta_distance will be more with min_dist i.e adding more weight to that route  peromne
-
-    print('route of all the ants at the end :')
-    print(route_opt)
-    print()
-    print('best path :', best_route)
-    print('cost of the best path', int(
-        dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0])
 
     return [int(dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0], str(best_route), mat[0]]
 

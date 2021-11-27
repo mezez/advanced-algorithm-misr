@@ -22,8 +22,8 @@ class RouteFinder:
 
         while iteration < self.iterations:
             num_cities = len(self.distance_matrix)
-            print(round(elapsed_time), 'msec')
-            initial_route = [0] + random2.sample(range(1, num_cities), num_cities - 1)
+            initial_route = [0] + \
+                random2.sample(range(1, num_cities), num_cities - 1)
             tsp = Solver(self.distance_matrix, initial_route)
             new_route, new_distance, distances = tsp.two_opt()
 
@@ -56,6 +56,5 @@ class RouteFinder:
         for i in best_route:
             f.write(cities_names[i])
             f.write("\n")
-            print(cities_names[i])
         f.write(str(best_distance))
         f.close()
