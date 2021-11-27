@@ -58,13 +58,15 @@ class Gui(object):
         dynamicButton = Button(Gui.root, text="Dynamic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_dynamic)
         twoOptAlgorithButton = Button(text="Two Opt Algorithm", padx=10, fg="blue",
-                                          command=Gui.set_active_screen_two_opt)
-        greedyButton = Button(text="Greedy", padx=10, fg="blue", command=Gui.set_active_screen_greedy)
+                                      command=Gui.set_active_screen_two_opt)
+        greedyButton = Button(text="Greedy", padx=10,
+                              fg="blue", command=Gui.set_active_screen_greedy)
         approximationButton = Button(text="MST Approximation", padx=10, fg="blue",
                                      command=Gui.set_active_screen_approximation)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_genetic)
-        matrix_dimension_label = Label(Gui.root, textvariable=Gui.matrix_dimension_text)
+        matrix_dimension_label = Label(
+            Gui.root, textvariable=Gui.matrix_dimension_text)
 
         generateMatrixButton = Button(text="Generate Random Matrix", padx=10, fg="blue",
                                       command=Gui.generateMatrix)
@@ -85,7 +87,8 @@ class Gui(object):
         generateMatrixButton.grid(row=4, column=2, sticky="ew")
         uploadFileButton.grid(row=4, column=4, sticky="ew")
 
-        active_screen_label = Label(Gui.root, textvariable=Gui.active_screen_text)
+        active_screen_label = Label(
+            Gui.root, textvariable=Gui.active_screen_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         active_screen_label.grid(row=2, column=0, sticky="ew")
 
@@ -95,7 +98,6 @@ class Gui(object):
         uploadLabel = Label(Gui.root, textvariable=Gui.upload_label_text)
         Gui.upload_label_text.set("Filename: none")
         uploadLabel.grid(row=4, column=5, columnspan=5, sticky="ew")
-
 
         Gui.root.mainloop()
 
@@ -124,18 +126,21 @@ class Gui(object):
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         print(Gui.activeScreen)
         return
+
     @staticmethod
     def set_active_screen_approximation():
         Gui.activeScreen = Gui.CONST_APPROXIMATION
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         print(Gui.activeScreen)
         return
+
     @staticmethod
     def set_active_screen_two_opt():
         Gui.activeScreen = Gui.CONST_TWO_OPT_ALGORITHM
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         print(Gui.activeScreen)
         return
+
     @staticmethod
     def set_active_screen_greedy():
         Gui.activeScreen = Gui.CONST_GREEDY
@@ -162,11 +167,12 @@ class Gui(object):
         # generate matrix
         matrix_length = int(Gui.matrixDimension.get())
         current_row = 0
-        cost_matrix = [[0 for x in range(matrix_length)] for y in range(matrix_length)] #initialize node with 0 costs
+        cost_matrix = [[0 for x in range(matrix_length)] for y in range(
+            matrix_length)]  # initialize node with 0 costs
         for i in range(matrix_length):
             current_column = 0
             for j in range(matrix_length):
-                if current_row != current_column: #change cost if the movement is to a different node, for same node, leave as 0
+                if current_row != current_column:  # change cost if the movement is to a different node, for same node, leave as 0
                     cost_matrix[i][j] = random.randint(1, 200)
                 current_column = current_column + 1
             current_row = current_row + 1
@@ -187,10 +193,11 @@ class Gui(object):
         if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
             from branch_and_bound import matr
             start_time = time.time()
-            response = matr(uploaded_file) #run computations and return response list
+            # run computations and return response list
+            response = matr(uploaded_file)
             end_time = time.time()
             time_taken = end_time-start_time
-            response.append(time_taken) #time taken for computation
+            response.append(time_taken)  # time taken for computation
             Gui.set_screen_content(response)
         if Gui.activeScreen == Gui.CONST_ANT_COLONY:
             from ant_colony_optimization import compute
@@ -203,7 +210,7 @@ class Gui(object):
         if Gui.activeScreen == Gui.CONST_GENETIC:
             from genetic_approach import geneticApproach
             start_time = time.time()
-            response  = geneticApproach(uploaded_file)
+            response = geneticApproach(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
@@ -211,7 +218,7 @@ class Gui(object):
         if Gui.activeScreen == Gui.CONST_APPROXIMATION:
             from approximation_mst import approximationMST
             start_time = time.time()
-            response  = approximationMST(uploaded_file)
+            response = approximationMST(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
@@ -243,7 +250,7 @@ class Gui(object):
         if Gui.activeScreen == Gui.CONST_BRUTE_FORCE:
             from brute_force import brute_force
             start_time = time.time()
-            response  = brute_force(uploaded_file)
+            response = brute_force(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
             response.append(time_taken)
@@ -253,12 +260,16 @@ class Gui(object):
     @staticmethod
     def set_screen_content(result):
         frame = LabelFrame(Gui.root)
-        frame.grid(row=5, column=0, columnspan=9, rowspan=9, sticky="nsew", padx=2, pady=2)
+        frame.grid(row=5, column=0, columnspan=9,
+                   rowspan=9, sticky="nsew", padx=2, pady=2)
 
-        cost_result_label = Label(frame, textvariable=Gui.cost_result_label_text)
-        path_result_label = Label(frame, textvariable=Gui.path_result_label_text)
+        cost_result_label = Label(
+            frame, textvariable=Gui.cost_result_label_text)
+        path_result_label = Label(
+            frame, textvariable=Gui.path_result_label_text)
         time_label = Label(frame, text="Time Taken:")
-        time_result_label = Label(frame, textvariable=Gui.time_result_label_text)
+        time_result_label = Label(
+            frame, textvariable=Gui.time_result_label_text)
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
 
         Gui.cost_result_label_text.set("Minimum Cost : " + str(result[0]))
@@ -281,6 +292,3 @@ class Gui(object):
 
 if __name__ == '__main__':
     Gui().main()
-
-
-

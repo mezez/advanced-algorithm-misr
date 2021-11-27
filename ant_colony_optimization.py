@@ -10,13 +10,16 @@ from branch_and_bound import read_tsp_file
 #              , [11, 15, 9, 0, 16]
 #              , [14, 8, 14, 16, 0]])
 
+
 def compute(filename):
-    mat = read_tsp_file(filename) #generate a cost matrix (from a tsp db) and get the number of cities of the matrix
+    # generate a cost matrix (from a tsp db) and get the number of cities of the matrix
+    mat = read_tsp_file(filename)
     d = np.array(mat[0])
 
     iteration = 100
     # iteration = 50
-    number_of_ants = mat[1] #algorithm is based on placing an ant on all the cities at the beginning, so an ant for every city
+    # algorithm is based on placing an ant on all the cities at the beginning, so an ant for every city
+    number_of_ants = mat[1]
     number_of_cities = mat[1]
 
     # intialization part
@@ -43,39 +46,51 @@ def compute(filename):
 
     for ite in range(iteration):
 
-        route[:, 0] = 1  # initial starting and ending positon of every ants '1' i.e city '1'
+        # initial starting and ending positon of every ants '1' i.e city '1'
+        route[:, 0] = 1
 
         for i in range(m):
 
-            temp_visibility = np.array(visibility)  # creating a copy of visibility
+            # creating a copy of visibility
+            temp_visibility = np.array(visibility)
 
             for j in range(n - 1):
                 # print(route)
 
-                combine_feature = np.zeros(5)  # intializing combine_feature array to zero
-                cum_prob = np.zeros(5)  # intializing cummulative probability array to zeros
+                # intializing combine_feature array to zero
+                combine_feature = np.zeros(5)
+                # intializing cummulative probability array to zeros
+                cum_prob = np.zeros(5)
 
                 cur_loc = int(route[i, j] - 1)  # current city of the ant
 
-                temp_visibility[:, cur_loc] = 0  # making visibility of the current city as zero
+                # making visibility of the current city as zero
+                temp_visibility[:, cur_loc] = 0
 
-                p_feature = np.power(pheromone[cur_loc, :], beta)  # calculating pheromone feature
-                v_feature = np.power(temp_visibility[cur_loc, :], alpha)  # calculating visibility feature
+                # calculating pheromone feature
+                p_feature = np.power(pheromone[cur_loc, :], beta)
+                # calculating visibility feature
+                v_feature = np.power(temp_visibility[cur_loc, :], alpha)
 
-                p_feature = p_feature[:, np.newaxis]  # adding axis to make a size[5,1]
-                v_feature = v_feature[:, np.newaxis]  # adding axis to make a size[5,1]
+                # adding axis to make a size[5,1]
+                p_feature = p_feature[:, np.newaxis]
+                # adding axis to make a size[5,1]
+                v_feature = v_feature[:, np.newaxis]
 
-                combine_feature = np.multiply(p_feature, v_feature)  # calculating the combine feature
+                # calculating the combine feature
+                combine_feature = np.multiply(p_feature, v_feature)
 
                 total = np.sum(combine_feature)  # sum of all the feature
 
-                probs = combine_feature / total  # finding probability of element probs(i) = comine_feature(i)/total
+                # finding probability of element probs(i) = comine_feature(i)/total
+                probs = combine_feature / total
 
                 cum_prob = np.cumsum(probs)  # calculating cummulative sum
                 # print(cum_prob)
                 r = np.random.random_sample()  # random no in [0,1)
                 # print(r)
-                city = np.nonzero(cum_prob > r)[0][0] + 1  # finding the next city having probability higher then random(r)
+                # finding the next city having probability higher then random(r)
+                city = np.nonzero(cum_prob > r)[0][0] + 1
                 # print(city)
 
                 route[i, j + 1] = city  # adding city to route
@@ -87,20 +102,26 @@ def compute(filename):
 
         route_opt = np.array(route)  # intializing optimal route
 
-        dist_cost = np.zeros((m, 1))  # intializing total_distance_of_tour with zero
+        # intializing total_distance_of_tour with zero
+        dist_cost = np.zeros((m, 1))
 
         for i in range(m):
 
             s = 0
             for j in range(n - 1):
-                s = s + d[int(route_opt[i, j]) - 1, int(route_opt[i, j + 1]) - 1]  # calculating total tour distance
+                # calculating total tour distance
+                s = s + d[int(route_opt[i, j]) - 1,
+                          int(route_opt[i, j + 1]) - 1]
 
-            dist_cost[i] = s  # storing distance of tour for 'i'th ant at location 'i'
+            # storing distance of tour for 'i'th ant at location 'i'
+            dist_cost[i] = s
 
-        dist_min_loc = np.argmin(dist_cost)  # finding location of minimum of dist_cost
+        # finding location of minimum of dist_cost
+        dist_min_loc = np.argmin(dist_cost)
         dist_min_cost = dist_cost[dist_min_loc]  # finging min of dist_cost
 
-        best_route = route[dist_min_loc, :]  # intializing current traversed as best route
+        # intializing current traversed as best route
+        best_route = route[dist_min_loc, :]
         pheromone = (1 - e) * pheromone  # evaporation of pheromone with (1-e)
 
         for i in range(m):
@@ -115,7 +136,8 @@ def compute(filename):
     print(route_opt)
     print()
     print('best path :', best_route)
-    print('cost of the best path', int(dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0])
+    print('cost of the best path', int(
+        dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0])
 
     return [int(dist_min_cost[0]) + d[int(best_route[-2]) - 1, 0], str(best_route), mat[0]]
 
@@ -123,5 +145,3 @@ def compute(filename):
 # references
 # https://github.com/Vampboy/Ant-Colony-Optimization
 # https://www.youtube.com/watch?v=EJKdmEbGre8
-
-

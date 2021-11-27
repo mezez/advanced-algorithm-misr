@@ -3,9 +3,7 @@ from itertools import combinations
 from branch_and_bound import read_tsp_file
 
 
-
 def dynamic_programing(uploaded_file):
-    
 
     matrix = read_tsp_file(uploaded_file)
     dists = np.array(matrix[0])
@@ -57,9 +55,8 @@ def dynamic_programing(uploaded_file):
         new_bits = bits & ~(1 << parent)
         _, parent = C[(bits, parent)]
         bits = new_bits
-        
 
     # Add implicit start state
     path.append(0)
-    
+
     return [opt, str(list(reversed(path))), matrix[0]]

@@ -31,7 +31,8 @@ def read_tsp_file(file=None):
         row_count = sheet.max_row
         column_count = sheet.max_column
 
-        cost_matrix = [[0 for x in range(column_count)] for y in range(row_count)]
+        cost_matrix = [[0 for x in range(column_count)]
+                       for y in range(row_count)]
 
         for i in range(column_count):
             for j in range(row_count):
@@ -101,8 +102,7 @@ def TSPRec(adj, curr_bound, curr_weight,
 
             # curr_res has the total weight
             # of the solution we got
-            curr_res = curr_weight + adj[curr_path[level - 1]] \
-                [curr_path[0]]
+            curr_res = curr_weight + adj[curr_path[level - 1]][curr_path[0]]
             if curr_res < final_res:
                 copyToFinal(curr_path)
                 final_res = curr_res
@@ -227,7 +227,7 @@ def matr(filename):
         else:
             path += str(final_path[i]) + " -> "
             # print(final_path[i], "->", end=' ')
-    #TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
+    # TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
     return [final_res, path, mat[0]]
 
 # read_tsp_file()
