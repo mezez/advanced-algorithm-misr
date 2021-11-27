@@ -1,5 +1,5 @@
 import numpy as np
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 
 def approximationMST(uploaded_file):

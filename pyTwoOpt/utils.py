@@ -37,10 +37,9 @@ class GeographicalPositionTest:
                     city_longitude = float(
                         "{0:.2f}".format(float(current_line[3]) + float(current_line[4]) / 60))
 
-                    cities_coordinates[city_name] = [city_latitude, city_longitude]
+                    cities_coordinates[city_name] = [
+                        city_latitude, city_longitude]
                     city_names.append(city_name)
-                else:
-                    print('This line', num_line, 'does not pass our test.')
 
             num_cities = len(city_names)
 

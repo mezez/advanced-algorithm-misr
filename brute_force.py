@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import permutations
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 
 def brute_force(uploaded_file):

@@ -1,6 +1,6 @@
 import numpy as np
 from itertools import combinations
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 
 def dynamic_programing(uploaded_file):

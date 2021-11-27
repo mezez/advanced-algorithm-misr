@@ -1,14 +1,13 @@
 import numpy as np
 import copy
 import math
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 np.random.seed(0)
 
 
 def geneticApproach(uploaded_file):
     iterations = 1000
     cost_matrix = np.array(read_tsp_file(uploaded_file)[0])
-    print("CostMAtrix_____", cost_matrix)
     size = len(cost_matrix)
     number_of_couples = math.floor(size/4)
     number_of_winners_to_keep = 2
