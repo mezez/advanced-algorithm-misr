@@ -90,7 +90,7 @@ class Gui(object):
             Gui.root, textvariable=Gui.active_screen_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
         active_screen_label.grid(row=2, column=0, sticky="ew")
-        Gui.matrix_dimension_text.set("Enter matrix size NxN: ")
+        Gui.matrix_dimension_text.set("Enter matrix size N: ")
         matrix_dimension_label.grid(row=4, column=0, sticky="ew")
         Gui.matrix_min_bound_text.set("Enter minimum value of cost: ")
         matrix_min_bound_label.grid(row=5, column=0, sticky="ew")
