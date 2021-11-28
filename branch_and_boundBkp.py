@@ -11,7 +11,7 @@ def read_tsp_file(file=None):
     if file is None:
         # file = "C:/Users/admin/Downloads/bays29.csv"
         # file = "bays29.xlsx"
-        file = "bays297by7.xlsx"
+        file = "tsp_db/bays297by7.xlsx"
         # file = "bays295by5.xlsx"
         # file = "bays2915by15.xlsx"
 

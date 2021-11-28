@@ -14,15 +14,10 @@ def read_tsp_file(file=None):
         final_data = [file, len(file[0])]
     else:
         if file is None:
-            # file = "C:/Users/admin/Downloads/bays29.csv"
-            # file = "bays29.xlsx"
-            file = "bays297by7.xlsx"
-            # file = "bays295by5.xlsx"
-            # file = "bays2915by15.xlsx"
+            file = "tsp_db/bays297by7.xlsx"
 
         # workbook = xlrd.open_workbook(file)
         # sheet = workbook.sheet_by_index(0)
-
         # print(sheet.cell_value(0, 0))
 
         wb = load_workbook(file)
