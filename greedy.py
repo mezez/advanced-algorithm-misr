@@ -1,5 +1,5 @@
 import sys
-from branch_and_bound import read_tsp_file
+from utils import read_tsp_file
 
 
 #  Function to find the minimum
@@ -51,10 +51,9 @@ def findMinRoute(cost_matrix):
     #  Started from the node where
     #  we finished as well.
     visited_route_list.append(0)
-    print("Minimum Cost is : ", end="")
-    print(sum)
-    print(visited_route_list)
-    return [int(sum), str(visited_route_list), cost_matrix]
+    for i in range(len(visited_route_list)):
+        visited_route_list[i] = visited_route_list[i]+1
+    return [int(sum), visited_route_list, cost_matrix]
 
 
 def compute(filename):
@@ -67,6 +66,7 @@ def compute(filename):
 #  Driver Code
 def main(self, args):
     #  Input Matrix
-    tsp = [[-1, 10, 15, 20], [10, -1, 35, 25], [15, 35, -1, 30], [20, 25, 30, -1]]
+    tsp = [[-1, 10, 15, 20], [10, -1, 35, 25],
+           [15, 35, -1, 30], [20, 25, 30, -1]]
     #  Function Call
     self.findMinRoute(tsp)
