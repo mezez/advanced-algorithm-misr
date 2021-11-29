@@ -7,7 +7,7 @@ def read_tsp_file(file=None):
         final_data = [file, len(file[0])]
     else:
         if file is None:
-            file = "tsp_db/bays297by7.xlsx"
+            file = "./tsp_database/bays297by7.xlsx"
         wb = load_workbook(file)
         sheet = wb.worksheets[0]
         row_count = sheet.max_row
