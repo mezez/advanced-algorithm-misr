@@ -14,7 +14,7 @@ def compute(filename):
 
 
 # This code is contributed by Pedram Ataee
-# Build upon by Sara Assefa Alemayehu
+# Built upon by Sara Assefa Alemayehu
 
 # reference
 # https://github.com/pdrm83/py2opt

@@ -156,7 +156,7 @@ def matr(filename):
     return [final_res, final_path, mat[0]]
 
 # This code is contributed by ng24_7
-# Build upon by Chimezirim Victor EKEMAM
+# Built upon by Chimezirim Victor EKEMAM
 
 # reference
 # https://www.geeksforgeeks.org/traveling-salesman-problem-using-branch-and-bound-2/
