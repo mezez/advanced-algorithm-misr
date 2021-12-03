@@ -1,8 +1,11 @@
 from utils import convertPath
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt2
 import time
 from tkinter import *
 from tkinter import filedialog
+
 np.random.seed(0)
 
 
@@ -19,9 +22,14 @@ class Gui(object):
     CONST_GREEDY = "greedy"
     CONST_APPROXIMATION = "approximation"
     CONST_GENETIC = "genetic"
+
+    run_all = "NO"
+    run_all_button = "Run All Algorithms"
     # default active screen
     activeScreen = CONST_BRANCH_AND_BOUND
     active_screen_text = StringVar()
+    run_all_text = StringVar()
+    run_all_button_text = StringVar()
     matrix_dimension_text = StringVar()
     matrix_min_bound_text = StringVar()
     matrix_max_bound_text = StringVar()
@@ -62,6 +70,10 @@ class Gui(object):
                                      command=Gui.set_active_screen_approximation)
         geneticButton = Button(text="Genetic Programming", padx=10, fg="blue",
                                command=Gui.set_active_screen_genetic)
+
+        runAllButton = Button(textvariable=Gui.run_all_button_text, padx=10, fg="blue",
+                                  command=Gui.toggleRunAll)
+
         matrix_dimension_label = Label(
             Gui.root, textvariable=Gui.matrix_dimension_text)
         matrix_min_bound_label = Label(
@@ -91,8 +103,16 @@ class Gui(object):
         uploadFileButton.grid(row=5, column=4, sticky="ew")
         active_screen_label = Label(
             Gui.root, textvariable=Gui.active_screen_text)
+        run_all_label = Label(
+            Gui.root, textvariable=Gui.run_all_text)
         Gui.active_screen_text.set("Active: " + Gui.activeScreen)
+        Gui.run_all_text.set("Run All: " + Gui.run_all)
+        Gui.run_all_button_text.set(Gui.run_all_button)
+
         active_screen_label.grid(row=2, column=0, sticky="ew")
+        runAllButton.grid(row=2, column=1, sticky="ew")
+        run_all_label.grid(row=2, column=2, sticky="ew")
+
         Gui.matrix_dimension_text.set("Enter matrix size N: ")
         matrix_dimension_label.grid(row=4, column=0, sticky="ew")
         Gui.matrix_min_bound_text.set("Enter minimum value of cost: ")
@@ -105,6 +125,18 @@ class Gui(object):
         Gui.upload_label_text.set("Filename: none")
         uploadLabel.grid(row=5, column=5, columnspan=7, sticky="ew")
         Gui.root.mainloop()
+
+    @staticmethod
+    def toggleRunAll():
+        if Gui.run_all == "YES":
+            Gui.run_all = "NO"
+            Gui.run_all_button = "Run All Algorithms"
+        else:
+            Gui.run_all = "YES"
+            Gui.run_all_button = "Run Single Algorithm"
+        Gui.run_all_button_text.set(Gui.run_all_button)
+        Gui.run_all_text.set("Run All: " + Gui.run_all)
+        return
 
     @staticmethod
     def set_active_screen(screen_name):
@@ -203,72 +235,161 @@ class Gui(object):
                                                        filetypes=(("Excel Files", "*.xlsx"),))
             Gui.upload_label_text.set("Filepath: " + uploaded_file)
             Gui.uploaded_file_name = uploaded_file
-        # select module base on active screen
-        if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
+
+        if Gui.run_all == "YES":
+            # run all algorithms
+            # branch and bound
             from branch_and_bound import matr
             start_time = time.time()
             # run computations and return response list
-            response = matr(uploaded_file)
+            response_branch_and_bound = matr(uploaded_file)
             end_time = time.time()
-            time_taken = end_time-start_time
-            response.append(time_taken)  # time taken for computation
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_ANT_COLONY:
+            time_taken = end_time - start_time
+            response_branch_and_bound.append(time_taken)  # time taken for computation
+            response_branch_and_bound.append("branch_and_bound")
+            response_branch_and_bound.append("blue")
+
+            # ant colony
             from ant_colony_optimization import compute
             start_time = time.time()
-            response = compute(uploaded_file)
+            response_ant_colony = compute(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_GENETIC:
+            response_ant_colony.append(time_taken)
+            response_ant_colony.append("ant_colony")
+            response_ant_colony.append("red")
+
+            # genetic
             from genetic_approach import geneticApproach
             start_time = time.time()
-            response = geneticApproach(uploaded_file)
+            response_genetic = geneticApproach(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_APPROXIMATION:
+            response_genetic.append(time_taken)
+            response_genetic.append("genetic")
+            response_genetic.append("yellow")
+
+            # mst approx
             from approximation_mst import approximationMST
             start_time = time.time()
-            response = approximationMST(uploaded_file)
+            response_mst = approximationMST(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_TWO_OPT_ALGORITHM:
+            response_mst.append(time_taken)
+            response_mst.append("mst_approximation")
+            response_mst.append("green")
+
+            # 2opt algorithm
             from py2opt import compute
             start_time = time.time()
-            response = compute(uploaded_file)
+            response_2opt = compute(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_GREEDY:
+            response_2opt.append(time_taken)
+            response_2opt.append("2_opt")
+            response_2opt.append("purple")
+
+            # greedy
             from greedy import compute
             start_time = time.time()
-            response = compute(uploaded_file)
+            response_greedy = compute(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_DYNAMIC:
+            response_greedy.append(time_taken)
+            response_greedy.append("greedy")
+            response_greedy.append("orange")
+
+            # dynamic
             from dynamic_programing import dynamic_programing
             start_time = time.time()
-            response = dynamic_programing(uploaded_file)
+            response_dynamic = dynamic_programing(uploaded_file)
             end_time = time.time()
             time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
-        if Gui.activeScreen == Gui.CONST_BRUTE_FORCE:
-            from brute_force import brute_force
-            start_time = time.time()
-            response = brute_force(uploaded_file)
-            end_time = time.time()
-            time_taken = end_time - start_time
-            response.append(time_taken)
-            Gui.set_screen_content(response)
+            response_dynamic.append(time_taken)
+            response_dynamic.append("dynamic_prog")
+            response_dynamic.append("grey")
+
+            # # brute force
+            # from brute_force import brute_force
+            # start_time = time.time()
+            # response_brute_force = brute_force(uploaded_file)
+            # end_time = time.time()
+            # time_taken = end_time - start_time
+            # response_brute_force.append(time_taken)
+            # response_brute_force.append("brute_force")
+            # response_brute_force.append("black")
+
+            # response = [response_branch_and_bound, response_ant_colony, response_brute_force, response_dynamic, response_2opt, response_greedy, response_mst, response_genetic]
+            response = [response_branch_and_bound, response_ant_colony, response_dynamic, response_2opt, response_greedy, response_mst, response_genetic]
+            Gui.set_screen_content_all(response)
+
+        else:
+            # select module base on active screen
+            if Gui.activeScreen == Gui.CONST_BRANCH_AND_BOUND:
+                from branch_and_bound import matr
+                start_time = time.time()
+                # run computations and return response list
+                response = matr(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time-start_time
+                response.append(time_taken)  # time taken for computation
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_ANT_COLONY:
+                from ant_colony_optimization import compute
+                start_time = time.time()
+                response = compute(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_GENETIC:
+                from genetic_approach import geneticApproach
+                start_time = time.time()
+                response = geneticApproach(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_APPROXIMATION:
+                from approximation_mst import approximationMST
+                start_time = time.time()
+                response = approximationMST(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_TWO_OPT_ALGORITHM:
+                from py2opt import compute
+                start_time = time.time()
+                response = compute(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_GREEDY:
+                from greedy import compute
+                start_time = time.time()
+                response = compute(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_DYNAMIC:
+                from dynamic_programing import dynamic_programing
+                start_time = time.time()
+                response = dynamic_programing(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
+            if Gui.activeScreen == Gui.CONST_BRUTE_FORCE:
+                from brute_force import brute_force
+                start_time = time.time()
+                response = brute_force(uploaded_file)
+                end_time = time.time()
+                time_taken = end_time - start_time
+                response.append(time_taken)
+                Gui.set_screen_content(response)
         return
 
     @staticmethod
@@ -295,6 +416,51 @@ class Gui(object):
         matrix = Text(frame, width="100", font=("Helvetica", 10))
         matrix.grid(row=2, column=1, pady=10)
         matrix.insert(END, str(np.array(result[2])))
+        return
+
+    @staticmethod
+    def set_screen_content_all(result):
+        # x-coordinates of left sides of bars
+        left = []
+        # algorithm names
+        tick_label = []
+        # heights of bars
+        height = []
+        height2 = []
+        # colours of bars
+        color = []
+        for i in range(len(result)):
+            left.append(i+1)
+            tick_label.append(result[i][4])
+            height.append(result[i][3])
+            height2.append(result[i][0])
+            color.append(result[i][5])
+
+        # plotting a bar chart for comparing the computation times of the algorithms
+        plt.figure(1)
+        plt.bar(left, height, tick_label=tick_label,
+                width=0.8, color=color)
+
+        # naming the x-axis
+        plt.xlabel('Algorithms')
+        # naming the y-axis
+        plt.ylabel('Running Time')
+        # plot title
+        plt.title('Advanced Algorithm Comparison')
+
+        plt.figure(2)
+        plt.bar(left, height2, tick_label=tick_label,
+                 width=0.8, color=color)
+
+        # naming the x-axis
+        plt.xlabel('Algorithm')
+        # naming the y-axis
+        plt.ylabel('Cost')
+        # plot title
+        plt.title('Advanced Algorithm Comparison')
+
+        # function to show the plot
+        plt.show()
         return
 
 
