@@ -25,6 +25,7 @@ class Gui(object):
     matrix_dimension_text = StringVar()
     matrix_min_bound_text = StringVar()
     matrix_max_bound_text = StringVar()
+    matrix_error_text = StringVar()
     upload_label_text = StringVar()
     cost_result_label_text = StringVar()
     path_result_label_text = StringVar()
@@ -67,6 +68,8 @@ class Gui(object):
             Gui.root, textvariable=Gui.matrix_min_bound_text)
         matrix_max_bound_label = Label(
             Gui.root, textvariable=Gui.matrix_max_bound_text)
+        matrix_error_label = Label(
+            Gui.root, textvariable=Gui.matrix_error_text, fg="red")
         generateMatrixButton = Button(text="Generate Random Matrix", fg="blue",
                                       command=Gui.generateMatrix)
         uploadFileButton = Button(text="Upload Matrix File", fg="blue",
@@ -96,6 +99,8 @@ class Gui(object):
         matrix_min_bound_label.grid(row=5, column=0, sticky="ew")
         Gui.matrix_max_bound_text.set("Enter maximum value of cost: ")
         matrix_max_bound_label.grid(row=6, column=0, sticky="ew")
+        Gui.matrix_error_text.set("")
+        matrix_error_label.grid(row=7, column=0, sticky="ew")
         uploadLabel = Label(Gui.root, textvariable=Gui.upload_label_text)
         Gui.upload_label_text.set("Filename: none")
         uploadLabel.grid(row=5, column=5, columnspan=7, sticky="ew")
@@ -157,9 +162,26 @@ class Gui(object):
     @staticmethod
     def generateMatrix():
         # generate matrix
-        matrix_length = int(Gui.matrixDimension.get())
-        minBound = int(Gui.minBound.get())
-        maxBound = int(Gui.maxBound.get())
+        matrix_length = 1
+        minBound = 1
+        maxBound = 5
+        try:
+            matrix_length = int(Gui.matrixDimension.get())
+            Gui.matrix_error_text.set("")
+        except:
+            Gui.matrix_error_text.set(
+                "Matrix size is not correct it should be integer")
+            return
+        try:
+            minBound = min(int(Gui.minBound.get()), int(Gui.maxBound.get()))
+            maxBound = max(int(Gui.minBound.get()),
+                           int(Gui.maxBound.get()))
+            Gui.matrix_error_text.set("")
+        except:
+            Gui.matrix_error_text.set(
+                "Min or Max value is not correct it should be integer")
+            return
+
         current_row = 0
         cost_matrix = [[0 for x in range(matrix_length)] for y in range(
             matrix_length)]  # initialize node with 0 costs
@@ -252,7 +274,7 @@ class Gui(object):
     @staticmethod
     def set_screen_content(result):
         frame = LabelFrame(Gui.root)
-        frame.grid(row=7, column=0, columnspan=12,
+        frame.grid(row=8, column=0, columnspan=12,
                    rowspan=12, sticky="nsew", pady=2)
         cost_result_label = Label(
             frame, textvariable=Gui.cost_result_label_text)
