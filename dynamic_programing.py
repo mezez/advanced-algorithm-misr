@@ -49,3 +49,6 @@ def dynamic_programing(uploaded_file):
     path.append(1)
     path.insert(0, 1)
     return [opt, list(reversed(path)), matrix[0]]
+
+# reference
+# https://github.com/CarlEkerot/held-karp/blob/master/held-karp.py

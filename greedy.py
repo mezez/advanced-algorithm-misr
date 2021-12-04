@@ -70,3 +70,6 @@ def main(self, args):
            [15, 35, -1, 30], [20, 25, 30, -1]]
     #  Function Call
     self.findMinRoute(tsp)
+
+# reference
+# https://www.geeksforgeeks.org/travelling-salesman-problem-greedy-approach/
