@@ -420,6 +420,19 @@ class Gui(object):
 
     @staticmethod
     def set_screen_content_all(result):
+        # display cost matrix
+        frame = LabelFrame(Gui.root)
+        frame.grid(row=8, column=0, columnspan=12,
+                   rowspan=12, sticky="nsew", pady=2)
+
+        matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
+        Gui.matrix_label_text.set("Matrix: ")
+        matrix_label.grid(row=2, column=0)
+        matrix = Text(frame, width="100", font=("Helvetica", 10))
+        matrix.grid(row=2, column=1, pady=10)
+        matrix.insert(END, str(np.array(result[0][2])))
+
+        #CHARTS
         # x-coordinates of left sides of bars
         left = []
         # algorithm names
@@ -444,7 +457,7 @@ class Gui(object):
         # naming the x-axis
         plt.xlabel('Algorithms')
         # naming the y-axis
-        plt.ylabel('Running Time')
+        plt.ylabel('Running Time (seconds)')
         # plot title
         plt.title('Advanced Algorithm Comparison')
 
@@ -461,6 +474,7 @@ class Gui(object):
 
         # function to show the plot
         plt.show()
+
         return
 
 
