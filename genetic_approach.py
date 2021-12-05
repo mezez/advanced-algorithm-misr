@@ -128,3 +128,7 @@ def generateCities(size):
     for i in range(size):
         cities.append(i+1)
     return np.array(cities)
+
+# References:
+# https://jaketae.github.io/study/genetic-algorithm/
+# https://www.youtube.com/watch?v=uCXm6avugCo
