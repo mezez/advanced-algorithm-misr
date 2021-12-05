@@ -6,7 +6,7 @@ np.random.seed(0)
 
 
 def geneticApproach(uploaded_file):
-    iterations = 1000
+    iterations = 200
     cost_matrix = np.array(read_tsp_file(uploaded_file)[0])
     size = len(cost_matrix)
     number_of_couples = math.floor(size/4)

@@ -5,7 +5,7 @@ from branch_and_bound import read_tsp_file
 def compute(filename):
     dist_mat = read_tsp_file(filename)[0]
     cities_names = range(len(dist_mat))
-    route_finder = RouteFinder(dist_mat, cities_names, iterations=5)
+    route_finder = RouteFinder(dist_mat, cities_names, iterations=200)
     best_distance, best_route = route_finder.solve()
     best_distance += dist_mat[best_route[len(best_route)-1]][0]
     best_route.append(0)
