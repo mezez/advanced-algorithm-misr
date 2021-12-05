@@ -309,7 +309,7 @@ class Gui(object):
             response_dynamic.append("dynamic_prog")
             response_dynamic.append("grey")
 
-            # # brute force
+            # brute force
             # from brute_force import brute_force
             # start_time = time.time()
             # response_brute_force = brute_force(uploaded_file)

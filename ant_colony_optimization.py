@@ -7,7 +7,7 @@ def compute(filename):
     # generate a cost matrix (from a tsp db) and get the number of cities of the matrix
     mat = read_tsp_file(filename)
     d = np.array(mat[0])
-    iteration = 200
+    iteration = 500
     # algorithm is based on placing an ant on all the cities at the beginning, so an ant for every city
     number_of_ants = mat[1]
     number_of_cities = mat[1]
