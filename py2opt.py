@@ -7,6 +7,7 @@ def compute(filename):
     cities_names = range(len(dist_mat))
     route_finder = RouteFinder(dist_mat, cities_names, iterations=5)
     best_distance, best_route = route_finder.solve()
+    best_distance += dist_mat[best_route[len(best_route)-1]][0]
     best_route.append(0)
     for i in range(len(best_route)):
         best_route[i] = best_route[i]+1
