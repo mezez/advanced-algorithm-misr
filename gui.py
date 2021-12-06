@@ -84,7 +84,7 @@ class Gui(object):
             Gui.root, textvariable=Gui.matrix_error_text, fg="red")
         generateMatrixButton = Button(text="Generate Random Matrix", fg="blue",
                                       command=Gui.generateMatrix)
-        uploadFileButton = Button(text="Upload Matrix File", fg="blue",
+        uploadFileButton = Button(text="Upload Matrix or Coordinates File", fg="blue",
                                   command=Gui.uploadFile)
         branchAndBoundButton.grid(row=1, column=1, sticky="ew")
         antColonyButton.grid(row=1, column=2, sticky="ew")
