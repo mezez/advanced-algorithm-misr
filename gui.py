@@ -312,6 +312,7 @@ class Gui(object):
             response_dynamic.append("grey")
 
             # brute force
+            # COMMENTED OUT DUE TO PERFORMANCE ISSUES, UNCOMMENT TO INCLUDE IN [RUN ALL] EXECUTION
             # from brute_force import brute_force
             # start_time = time.time()
             # response_brute_force = brute_force(uploaded_file)
@@ -320,9 +321,11 @@ class Gui(object):
             # response_brute_force.append(time_taken)
             # response_brute_force.append("brute_force")
             # response_brute_force.append("black")
-
             # response = [response_branch_and_bound, response_ant_colony, response_brute_force, response_dynamic, response_2opt, response_greedy, response_mst, response_genetic]
+
+            #IF THE ABOVE LINES ARE UNCOMMENTED THEN COMMENT THE LINE BELOW CONTAINING response = [response_branch_and_bound...
             response = [response_branch_and_bound, response_ant_colony, response_dynamic, response_2opt, response_greedy, response_mst, response_genetic]
+
             Gui.set_screen_content_all(response)
 
         else:
