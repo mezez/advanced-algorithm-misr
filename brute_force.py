@@ -32,3 +32,6 @@ def brute_force(uploaded_file):
     for i in range(len(optimal_path[1])):
         optimal_path[1][i] = optimal_path[1][i]+1
     return [int(optimal_path[0]), optimal_path[1], distance_matrix]
+
+# reference
+# https://iq.opengenus.org/travelling-salesman-problem-brute-force/
