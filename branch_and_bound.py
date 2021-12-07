@@ -2,44 +2,7 @@
 # Traveling Salesman Problem using
 # Branch and Bound.
 import math
-from openpyxl import *
-
-
-# import xlrd
-# global mat
-
-
-def read_tsp_file(file=None):
-    if type(file) is list:
-        final_data = [file, len(file[0])]
-    else:
-        if file is None:
-            # file = "C:/Users/admin/Downloads/bays29.csv"
-            # file = "bays29.xlsx"
-            file = "bays297by7.xlsx"
-            # file = "bays295by5.xlsx"
-            # file = "bays2915by15.xlsx"
-
-        # workbook = xlrd.open_workbook(file)
-        # sheet = workbook.sheet_by_index(0)
-
-        # print(sheet.cell_value(0, 0))
-
-        wb = load_workbook(file)
-        sheet = wb.worksheets[0]
-
-        row_count = sheet.max_row
-        column_count = sheet.max_column
-
-        cost_matrix = [[0 for x in range(column_count)] for y in range(row_count)]
-
-        for i in range(column_count):
-            for j in range(row_count):
-                cost_matrix[i][j] = sheet.cell(i + 1, j + 1).value
-
-        final_data = [cost_matrix, row_count]
-    return final_data
-
+from utils import read_tsp_file
 
 maxsize = float('inf')
 
@@ -90,28 +53,22 @@ def secondMin(adj, i):
 def TSPRec(adj, curr_bound, curr_weight,
            level, curr_path, visited):
     global final_res
-
     # base case is when we have reached level N
     # which means we have covered all the nodes once
     if level == N:
-
         # check if there is an edge from
         # last vertex in path back to the first vertex
         if adj[curr_path[level - 1]][curr_path[0]] != 0:
-
             # curr_res has the total weight
             # of the solution we got
-            curr_res = curr_weight + adj[curr_path[level - 1]] \
-                [curr_path[0]]
+            curr_res = curr_weight + adj[curr_path[level - 1]][curr_path[0]]
             if curr_res < final_res:
                 copyToFinal(curr_path)
                 final_res = curr_res
         return
-
     # for any other level iterate for all vertices
     # to build the search space tree recursively
     for i in range(N):
-
         # Consider next vertex if it is not same
         # (diagonal entry in adjacency matrix and
         # not visited already)
@@ -119,7 +76,6 @@ def TSPRec(adj, curr_bound, curr_weight,
                 visited[i] == False):
             temp = curr_bound
             curr_weight += adj[curr_path[level - 1]][i]
-
             # different computation of curr_bound
             # for level 2 from the other levels
             if level == 1:
@@ -128,7 +84,6 @@ def TSPRec(adj, curr_bound, curr_weight,
             else:
                 curr_bound -= ((secondMin(adj, curr_path[level - 1]) +
                                 firstMin(adj, i)) / 2)
-
             # curr_bound + curr_weight is the actual lower bound
             # for the node that we have arrived on.
             # If current lower bound < final_res,
@@ -136,16 +91,13 @@ def TSPRec(adj, curr_bound, curr_weight,
             if curr_bound + curr_weight < final_res:
                 curr_path[level] = i
                 visited[i] = True
-
                 # call TSPRec for the next level
                 TSPRec(adj, curr_bound, curr_weight,
                        level + 1, curr_path, visited)
-
             # Else we have to prune the node by resetting
             # all changes to curr_weight and curr_bound
             curr_weight -= adj[curr_path[level - 1]][i]
             curr_bound = temp
-
             # Also reset the visited array
             visited = [False] * len(visited)
             for j in range(level):
@@ -162,29 +114,20 @@ def TSP(adj):
     curr_bound = 0
     curr_path = [-1] * (N + 1)
     visited = [False] * N
-
     # Compute initial bound
     for i in range(N):
         curr_bound += (firstMin(adj, i) +
                        secondMin(adj, i))
-
     # Rounding off the lower bound to an integer
     curr_bound = math.ceil(curr_bound / 2)
-
     # We start at vertex 1 so the first vertex
     # in curr_path[] is 0
     visited[0] = True
     curr_path[0] = 0
-
     # Call to TSPRec for curr_weight
     # equal to 0 and level 1
     TSPRec(adj, curr_bound, 0, 1, curr_path, visited)
 
-
-# Driver code
-
-
-# Adjacency matrix for the given graph
 
 global N, final_path, final_res
 
@@ -192,15 +135,8 @@ global N, final_path, final_res
 def matr(filename):
     mat = read_tsp_file(filename)
     adj = mat[0]
-    # adj = [[0, 107, 241, 190, 124],
-    #        [107, 0, 148, 137, 88],
-    #        [241, 148, 0, 374, 171],
-    #        [190, 137, 374, 0, 202],
-    #        [124, 88, 171, 202, 0]]
-    # N = 5
     global N
     N = mat[1]
-
     # final_path[] stores the final solution
     # i.e. the // path of the salesman.
     global final_path
@@ -214,26 +150,13 @@ def matr(filename):
     # of shortest tour.
     global final_res
     final_res = maxsize
-
     TSP(adj)
-
-    print("Minimum cost :", final_res)
-    print("Optimal Path Taken : ", end=' ')
-    path = ""
-    for i in range(N + 1):
-        if i == N:
-            path += str(final_path[i])
-            # print(final_path[i], end=' ')
-        else:
-            path += str(final_path[i]) + " -> "
-            # print(final_path[i], "->", end=' ')
-    #TODO RETURN THE DATA TO PARENT CLASS AND DISPLAY IN GUI
-    return [final_res, path, mat[0]]
-
-# read_tsp_file()
+    for i in range(len(final_path)):
+        final_path[i] = final_path[i] + 1
+    return [final_res, final_path, mat[0]]
 
 # This code is contributed by ng24_7
-# Build upon by Chimezirim Victor EKEMAM
+# Built upon by Chimezirim Victor EKEMAM
 
 # reference
 # https://www.geeksforgeeks.org/traveling-salesman-problem-using-branch-and-bound-2/
