@@ -2,6 +2,7 @@ from utils import convertPath
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import textwrap
 from tkinter import *
 from tkinter import filedialog
 
@@ -25,7 +26,7 @@ class Gui(object):
     run_all = "NO"
     run_all_button = "Run All Algorithms"
     # default active screen
-    activeScreen = CONST_BRANCH_AND_BOUND
+    activeScreen = CONST_GENETIC
     active_screen_text = StringVar()
     run_all_text = StringVar()
     run_all_button_text = StringVar()
@@ -232,7 +233,9 @@ class Gui(object):
         else:
             uploaded_file = filedialog.askopenfilename(initialdir="./tsp_database", title="Matrix file",
                                                        filetypes=(("Excel Files", "*.xlsx"),))
-            Gui.upload_label_text.set("Filepath: " + uploaded_file)
+            unwrapped_textpath = "Filepath: " + uploaded_file
+            wrapped_textpath = textwrap.fill(unwrapped_textpath, width=80)
+            Gui.upload_label_text.set(wrapped_textpath)
             Gui.uploaded_file_name = uploaded_file
 
         if Gui.run_all == "YES":
@@ -404,9 +407,16 @@ class Gui(object):
             frame, textvariable=Gui.time_result_label_text)
         matrix_label = Label(frame, textvariable=Gui.matrix_label_text)
         Gui.cost_result_label_text.set("Minimum Cost : " + str(result[0]))
-        Gui.path_result_label_text.set("Path Taken: " + convertPath(result[1]))
-        Gui.time_result_label_text.set(
-            "Time taken: " + str(result[3]) + " Seconds")
+
+        unwrapped_text = "Path Taken: " + convertPath(result[1])
+        wrapped_text = textwrap.fill(unwrapped_text, width=150)
+        Gui.path_result_label_text.set(wrapped_text)
+
+        unwrapped_text2 = "Time taken: " + str(result[3]) + " Seconds"
+        wrapped_text2 = textwrap.fill(unwrapped_text2, width=30)
+
+        Gui.time_result_label_text.set(wrapped_text2)
+
         Gui.matrix_label_text.set("Matrix: ")
         cost_result_label.grid(row=0, column=0)
         path_result_label.grid(row=0, column=1)
