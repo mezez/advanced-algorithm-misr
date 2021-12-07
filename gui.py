@@ -1,7 +1,6 @@
 from utils import convertPath
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib.pyplot as plt2
 import time
 from tkinter import *
 from tkinter import filedialog
