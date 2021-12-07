@@ -26,7 +26,7 @@ class Gui(object):
     run_all = "NO"
     run_all_button = "Run All Algorithms"
     # default active screen
-    activeScreen = CONST_BRANCH_AND_BOUND
+    activeScreen = CONST_GENETIC
     active_screen_text = StringVar()
     run_all_text = StringVar()
     run_all_button_text = StringVar()
